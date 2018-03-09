@@ -13,9 +13,9 @@
 			}
 			.hero {
 				background: url('/images/1942.gif');
-				background-position: -30px -10px;
-				width:28px;
-				height:28px;
+				background-position: -110px -418px;
+				width:20px;
+				height:20px;
 				position:absolute;
 			}
 			#hero{
@@ -121,6 +121,9 @@
 					enemiesAdded = data.response.enemiesAdded;
 					gameLoop();
 				});
+				socket.on("explode", function(data) {
+					explode(data.x, data.y);
+				})
 			});
 		</script>
 	</head>
