@@ -79,7 +79,6 @@ function moveEnemies() {
 }
 
 function moveBullets() {
-    console.log(gameObject.bullets)
     if (gameObject.bullets.length > 0) {
         for (i = 0; i < gameObject.bullets.length; i++) {
             gameObject.bullets[i].y -= 15;
