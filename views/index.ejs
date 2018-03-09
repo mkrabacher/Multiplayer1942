@@ -113,7 +113,7 @@
 					
 				}	
 				socket.on("updateGame", function(data) {
-					console.log(data)
+					
 					enemies = data.response.enemies;
 					bigEnemies = data.response.bigEnemies,
 					bullets = data.response.bullets,
@@ -145,7 +145,7 @@
 			for (let key in heroes) {
 				let element = document.createElement("div");
 				element.id = key;
-				element.class = "hero";
+				element.className = "hero";
 				element.style["top"] = heroes[key].x
 				element.style["left"] = heroes[key].y
 				document.getElementById("heroes").appendChild(element);
@@ -180,17 +180,17 @@
 			for(i = 0; i < bigEnemies.length; i++) {
 				output += "<div id='0' class='bigEnemy' style='top:" + bigEnemies[i].y  + "; left:" + bigEnemies[i].x + "px;'></div>";
 			}
-			if(enemies.length < 7) {
-				var xPos = (Math.random() * 900) + 50;
-				if(enemiesAdded % 15 == 0) {
-					output += "<div id='0' class='bigEnemy' style='top: 10; left: " + xPos + "px;'></div>";
-					bigEnemies.push({x: xPos, y: -10})
-				} else {
-					output += "<div id='0' class='enemy' style='top: 10; left: " + xPos + "px;'></div>";
-					enemies.push({x: xPos, y: -10})
-				}
-				enemiesAdded += 1;
-			}
+			// if(enemies.length < 7) {
+			// 	var xPos = (Math.random() * 900) + 50;
+			// 	if(enemiesAdded % 15 == 0) {
+			// 		output += "<div id='0' class='bigEnemy' style='top: 10; left: " + xPos + "px;'></div>";
+			// 		bigEnemies.push({x: xPos, y: -10})
+			// 	} else {
+			// 		output += "<div id='0' class='enemy' style='top: 10; left: " + xPos + "px;'></div>";
+			// 		enemies.push({x: xPos, y: -10})
+			// 	}
+			// 	enemiesAdded += 1;
+			// }
 			document.getElementById('enemies').innerHTML = output;
 		}
 
