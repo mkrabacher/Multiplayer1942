@@ -7,19 +7,19 @@
 				background-color:black;
 			}
 			#container{
-				background: url('background.jpg');
+				background: url('/images/background.jpg');
 				width:1000px;
 				height:550px;
 			}
 			#hero{
-				background: url('1942.gif');
+				background: url('/images/1942.gif');
 				background-position: -30px -10px;
 				width:28px;
 				height:28px;
 				position:absolute;
 			}
 			.enemy{
-				background: url('1942.gif');
+				background: url('/images/1942.gif');
 				background-position-y: -180px;
 				background-position-x: -85px;
 				width:28px;
@@ -28,7 +28,7 @@
 				transform: rotate(180deg);
 			}
 			.bigEnemy{
-				background: url('1942.gif');
+				background: url('/images/1942.gif');
 				background-position-y: -105px;
 				background-position-x: -40px;
 				width:48px;
@@ -37,14 +37,14 @@
 				transform: rotate(180deg);
 			}
 			.bullet{
-				background: url('1942.gif');
+				background: url('/images/1942.gif');
 				background-position: -185px -400px;
 				width:18px;
 				height:18px;
 				position:absolute;
 			}
 			.explode_img {
-				background: url('1942.gif');
+				background: url('/images/1942.gif');
 				background-position: -82px -40px;
 				width: 28px;
 				height: 28px;
@@ -72,11 +72,11 @@
 				bullets = [],
 				score = 100,
 				enemiesAdded = 1,
-				shootNoise = new Audio('shootNoise.wav'),
-				explodeNoise = new Audio('enemyExplodes.wav');
+				shootNoise = new Audio('/sounds/shootNoise.wav'),
+				explodeNoise = new Audio('/sounds/enemyExplodes.wav');
 			$(document).ready(function() {
 				var socket = io.connect();
-				io.emit("playerJoin",{name:name});
+				socket.emit("playerJoin",{name:name});
 				document.onkeydown = function(e) {
 					let key;
 					switch (e.keyCode) {
@@ -100,11 +100,11 @@
 							key = "BADKEY";
 					}
 					if (key != "BADKEY") {
-						io.emit("updatePlayer", {key:key, name:name});
+						socket.emit("updatePlayer", {key:key, name:name});
 					}
 					
 				}
-				io.on("updateGame", function(data) {
+				socket.on("updateGame", function(data) {
 					enemies = data.enemies;
 					bigEnemies = data.bigEnemies,
 					bullets = data.bullets,
@@ -130,10 +130,6 @@
 
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script>
-
-
-		
-
 		function displayHero() {
 			document.getElementById('hero').style['top'] = hero.y + 'px'
 			document.getElementById('hero').style['left'] = hero.x + 'px'
