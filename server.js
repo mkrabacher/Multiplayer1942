@@ -32,7 +32,7 @@ function checkHeroes(){
     for(hero = 0; hero < gameObject.heroes.length; hero++){
         for(i = 0; i < gameObject.enemies.length; i++) {
             var xDiff = heroes[hero].x - gameObject.enemies[i].x,
-            yDiff = heroes[hero].y - gameObject.enemies[i].y;
+                yDiff = heroes[hero].y - gameObject.enemies[i].y;
             if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
                 io.emit('explode', gameObject.heroes[hero].x, gameObject.heroes[hero].y);
                 gameObject.enemies[i] = 'remove'
@@ -42,7 +42,7 @@ function checkHeroes(){
         
         for(i = 0; i < gameObject.bigEnemies.length; i++) {
             var xDiff = hero.x - gameObject.bigEnemies[i].x,
-            yDiff = hero.y - gameObject.bigEnemies[i].y;
+                yDiff = hero.y - gameObject.bigEnemies[i].y;
             if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
                 io.emit('explode', gameObject.heroes[hero].x, gameObject.heroes[hero].y);
                 gameObject.bigEnemies[i] = 'remove'
@@ -79,6 +79,7 @@ function moveEnemies() {
 }
 
 function moveBullets() {
+    console.log(gameObject.bullets)
     if (gameObject.bullets.length > 0) {
         for (i = 0; i < gameObject.bullets.length; i++) {
             gameObject.bullets[i].y -= 15;
@@ -178,6 +179,7 @@ io.sockets.on('connection', function (socket) {
             case 'space':
                 //create bullet based hero x and y
                 shootBullet(gameObject.heroes[data.name].y, gameObject.heroes[data.name].x)
+                console.log(gameObject.heroes[data.name].y, gameObject.heroes[data.name].x)
                 io.emit('shootNoise')
                 gameObject.heroes[data.name].y
                 break;
