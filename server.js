@@ -34,7 +34,7 @@ function checkHeroes(){
             var xDiff = heroes[hero].x - gameObject.enemies[i].x,
                 yDiff = heroes[hero].y - gameObject.enemies[i].y;
             if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
-                io.emit('explode', gameObject.heroes[hero].x, gameObject.heroes[hero].y);
+                io.emit('explode', {'x':gameObject.heroes[hero].x, 'y':gameObject.heroes[hero].y});
                 gameObject.enemies[i] = 'remove'
                 gameObject.communityScore -= 500;
             }
@@ -44,7 +44,7 @@ function checkHeroes(){
             var xDiff = hero.x - gameObject.bigEnemies[i].x,
                 yDiff = hero.y - gameObject.bigEnemies[i].y;
             if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
-                io.emit('explode', gameObject.heroes[hero].x, gameObject.heroes[hero].y);
+                io.emit('explode', {'x':gameObject.heroes[hero].x, 'y':gameObject.heroes[hero].y});
                 gameObject.bigEnemies[i] = 'remove'
                 gameObject.communityScore -= 500;
             }
@@ -90,7 +90,7 @@ function moveBullets() {
                     var yDiff = gameObject.bullets[i].y - gameObject.enemies[j].y,
                         xDiff = gameObject.bullets[i].x - gameObject.enemies[j].x;
                     if (xDiff < 30 && xDiff > -30 && yDiff < 10 && yDiff > -10) {
-                        io.emit('explode', gameObject.enemies[j].x, gameObject.enemies[j].y);
+                        io.emit('explode', {'x':gameObject.enemies[j].x, 'y':gameObject.enemies[j].y});
                         gameObject.bullets[i] = 'remove';
                         gameObject.enemies[j] = 'remove';
                         gameObject.communityScore += 10;
@@ -100,7 +100,7 @@ function moveBullets() {
                     var yDiff = gameObject.bullets[i].y - gameObject.bigEnemies[j].y,
                         xDiff = gameObject.bullets[i].x - gameObject.bigEnemies[j].x;
                     if (xDiff < 60 && xDiff > -30 && yDiff < 40 && yDiff > -10) {
-                        io.emit('explode', gameObject.bigEnemies[j].x, gameObject.bigEnemies[j].y);
+                        io.emit('explode', {'x':gameObject.bigEnemies[j].x, 'y':gameObject.bigEnemies[j].y});
                         gameObject.bullets[i] = 'remove';
                         gameObject.bigEnemies[j] = 'remove';
                         gameObject.communityScore += 10;
