@@ -164,20 +164,20 @@ io.sockets.on('connection', function (socket) {
         switch(data.key){
             case 'up':
             //update specific player's vertical pos skyward
-                gameObject.heroes[data.name].y -= 5
+                gameObject.heroes[data.name].x -= 5
                 console.log(gameObject.heroes[data.name].y)
                 break;
             case 'right':
                 //update specific player's horizontal pos right
-                gameObject.heroes[data.name].x += 5
+                gameObject.heroes[data.name].y += 5
                 break;
             case 'down':
                 //update specific player's vertical pos down
-                gameObject.heroes[data.name].y += 5
+                gameObject.heroes[data.name].x += 5
                 break;
             case 'left':
                 //update specific player's horizontal pos left
-                gameObject.heroes[data.name].x -= 5
+                gameObject.heroes[data.name].y -= 5
                 break;
             case 'space':
                 //create bullet based hero x and y
