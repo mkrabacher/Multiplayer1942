@@ -156,6 +156,7 @@ var server = app.listen(8000, function () {
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function (socket) {
+    let localName;
     socket.on('updatePlayer', function (data) {
         //sends in individual info that needs to be added to the gameObject
         switch(data.key){
@@ -186,7 +187,11 @@ io.sockets.on('connection', function (socket) {
     })
     socket.on('playerJoin', function (data) {
         //sends in player name and triggers event to add a new player to the heroes array with given name.
+        localName = data.name;
         gameObject.heroes[data.name] = {x:150, y:250}
+    })
+    socket.on("disconnect", function() {
+        gameObject.heroes[localName] = undefined;
     })
     setInterval(function() {
         gameLoop()
