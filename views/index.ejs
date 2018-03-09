@@ -18,6 +18,13 @@
 				height:28px;
 				position:absolute;
 			}
+			.hero {
+				background: url('/images/1942.gif');
+				background-position: -30px -10px;
+				width:28px;
+				height:28px;
+				position:absolute;
+			}
 			.enemy{
 				background: url('/images/1942.gif');
 				background-position-y: -180px;
@@ -138,6 +145,7 @@
 			for (let key in heroes) {
 				let element = document.createElement("div");
 				element.id = key;
+				element.class = "hero";
 				element.style["top"] = heroes[key].x
 				element.style["left"] = heroes[key].y
 				document.getElementById("heroes").appendChild(element);
