@@ -27,53 +27,52 @@ var gameObject = {
     bigEnemies: [],
     bullets: [],
     communityScore: 0,
-
 }
 //end variables
 
 //functions
 function moveEnemies() {
-    for (i = 0; i < enemies.length; i++) {
-        enemies[i].y += 1;
-        if (enemies[i].y > 550) {
+    for (i = 0; i < gameObject.enemies.length; i++) {
+        gameObject.enemies[i].y += 1;
+        if (gameObject.enemies[i].y > 550) {
             score -= 10;
-            enemies[i] = 'remove'
+            gameObject.enemies[i] = 'remove'
         }
     }
-    for (i = 0; i < bigEnemies.length; i++) {
-        bigEnemies[i].y += 1.5;
-        if (bigEnemies[i].y > 550) {
-            score -= 10;
-            bigEnemies[i] = 'remove'
+    for (i = 0; i < gameObject.bigEnemies.length; i++) {
+        gameObject.bigEnemies[i].y += 1.5;
+        if (gameObject.bigEnemies[i].y > 550) {
+            gameObject.score -= 10;
+            gameObject.bigEnemies[i] = 'remove'
         }
     }
 }
 
 function moveBullets() {
-    if (bullets.length > 0) {
-        for (i = 0; i < bullets.length; i++) {
-            bullets[i].y -= 15;
-            if (bullets[i].y < -10) {
-                bullets[i] = 'remove';
+    if (gameObject.bullets.length > 0) {
+        for (i = 0; i < gameObject.bullets.length; i++) {
+            gameObject.bullets[i].y -= 15;
+            if (gameObject.bullets[i].y < -10) {
+                gameObject.bullets[i] = 'remove';
             } else {
-                for (j = 0; j < enemies.length; j++) {
-                    var yDiff = bullets[i].y - enemies[j].y,
-                        xDiff = bullets[i].x - enemies[j].x;
+                for (j = 0; j < gameObject.enemies.length; j++) {
+                    var yDiff = gameObject.bullets[i].y - gameObject.enemies[j].y,
+                        xDiff = gameObject.bullets[i].x - gameObject.enemies[j].x;
                     if (xDiff < 30 && xDiff > -30 && yDiff < 10 && yDiff > -10) {
-                        io.emit('explode', enemies[j].x, enemies[j].y);
-                        bullets[i] = 'remove';
-                        enemies[j] = 'remove';
-                        score += 10;
+                        io.emit('explode', gameObject.enemies[j].x, gameObject.enemies[j].y);
+                        gameObject.bullets[i] = 'remove';
+                        gameObject.enemies[j] = 'remove';
+                        gameObject.score += 10;
                     }
                 }
-                for (j = 0; j < bigEnemies.length; j++) {
-                    var yDiff = bullets[i].y - bigEnemies[j].y,
-                        xDiff = bullets[i].x - bigEnemies[j].x;
+                for (j = 0; j < gameObject.bigEnemies.length; j++) {
+                    var yDiff = gameObject.bullets[i].y - gameObject.bigEnemies[j].y,
+                        xDiff = gameObject.bullets[i].x - gameObject.bigEnemies[j].x;
                     if (xDiff < 60 && xDiff > -30 && yDiff < 40 && yDiff > -10) {
-                        io.emit('explode', bigEnemies[j].x, bigEnemies[j].y);
-                        bullets[i] = 'remove';
-                        bigEnemies[j] = 'remove';
-                        score += 10;
+                        io.emit('explode', gameObject.bigEnemies[j].x, gameObject.bigEnemies[j].y);
+                        gameObject.bullets[i] = 'remove';
+                        gameObject.bigEnemies[j] = 'remove';
+                        gameObject.score += 10;
                     }
                 }
             }
@@ -82,22 +81,29 @@ function moveBullets() {
 }
 
 function shootBullet(x,y) {
-    bullets.push(x,y);
+    gameObject.bullets.push(x,y);
 }
 
 function remove() {
-    bullets = bullets.filter(function (element) {
+    gameObject.bullets = gameObject.bullets.filter(function (element) {
         return element !== 'remove';
     });
 
-    enemies = enemies.filter(function (element) {
+    gameObject.enemies = gameObject.enemies.filter(function (element) {
         return element !== 'remove';
     });
 
-    bigEnemies = bigEnemies.filter(function (element) {
+    gameObject.bigEnemies = gameObject.bigEnemies.filter(function (element) {
         return element !== 'remove';
     });
 
+}
+
+function gameLoop(){
+    //moveHeroes()
+    moveEnemies()
+    moveBullets()
+    remove()
 }
 //end functions
 
@@ -123,8 +129,9 @@ io.sockets.on('connection', function (socket) {
         //sends in individual info that needs to be added to the gameObject
         switch(data.key){
             case 'up':
-                //update specific player's vertical pos skyward
+            //update specific player's vertical pos skyward
                 gameObject.heroes[data.name].y -= 5
+                console.log(gameObject.heroes[data.name].y)
                 break;
             case 'right':
                 //update specific player's horizontal pos right
@@ -152,7 +159,7 @@ io.sockets.on('connection', function (socket) {
         gameObject.heroes[data.name] = {x:150, y:250}
     })
     setInterval(function() {
-        // gameLoop()
+        gameLoop()
         io.emit('updateGame', {response:gameObject})
         // console.log('.')
     }, 50)
