@@ -31,18 +31,51 @@ var gameObject = {
 //end variables
 
 //functions
+function checkHeroes(){
+    for(hero = 0; hero < gameObject.heroes.length; hero++){
+        for(i = 0; i < gameObject.enemies.length; i++) {
+            var xDiff = heroes[hero].x - gameObject.enemies[i].x,
+            yDiff = heroes[hero].y - gameObject.enemies[i].y;
+            if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
+                io.emit('explode', gameObject.heroes[hero].x, gameObject.heroes[hero].y);
+                gameObject.enemies[i] = 'remove'
+                gameObject.communityScore -= 500;
+            }
+        }
+        
+        for(i = 0; i < gameObject.bigEnemies.length; i++) {
+            var xDiff = hero.x - gameObject.bigEnemies[i].x,
+            yDiff = hero.y - gameObject.bigEnemies[i].y;
+            if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
+                io.emit('explode', gameObject.heroes[hero].x, gameObject.heroes[hero].y);
+                gameObject.bigEnemies[i] = 'remove'
+                gameObject.communityScore -= 500;
+            }
+        }
+    }
+}
+
 function moveEnemies() {
+    if(gameObject.enemies.length < 7) {
+        var xPos = (Math.random() * 900) + 50;
+        if(gameObject.enemiesAdded % 15 == 0) {
+            gameObject.bigEnemies.push({x: xPos, y: -10})
+        } else {
+            gameObject.enemies.push({x: xPos, y: -10})
+        }
+    gameObject.enemiesAdded += 1;
+    }
     for (i = 0; i < gameObject.enemies.length; i++) {
         gameObject.enemies[i].y += 1;
         if (gameObject.enemies[i].y > 550) {
-            score -= 10;
+            gameObject.communityScore -= 10;
             gameObject.enemies[i] = 'remove'
         }
     }
     for (i = 0; i < gameObject.bigEnemies.length; i++) {
         gameObject.bigEnemies[i].y += 1.5;
         if (gameObject.bigEnemies[i].y > 550) {
-            gameObject.score -= 10;
+            gameObject.communityScore -= 10;
             gameObject.bigEnemies[i] = 'remove'
         }
     }
@@ -62,7 +95,7 @@ function moveBullets() {
                         io.emit('explode', gameObject.enemies[j].x, gameObject.enemies[j].y);
                         gameObject.bullets[i] = 'remove';
                         gameObject.enemies[j] = 'remove';
-                        gameObject.score += 10;
+                        gameObject.communityScore += 10;
                     }
                 }
                 for (j = 0; j < gameObject.bigEnemies.length; j++) {
@@ -72,7 +105,7 @@ function moveBullets() {
                         io.emit('explode', gameObject.bigEnemies[j].x, gameObject.bigEnemies[j].y);
                         gameObject.bullets[i] = 'remove';
                         gameObject.bigEnemies[j] = 'remove';
-                        gameObject.score += 10;
+                        gameObject.communityScore += 10;
                     }
                 }
             }
@@ -101,6 +134,7 @@ function remove() {
 
 function gameLoop(){
     //moveHeroes()
+    checkHeroes()
     moveEnemies()
     moveBullets()
     remove()

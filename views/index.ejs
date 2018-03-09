@@ -151,25 +151,25 @@
 				element.style["left"] = heroes[key].y
 				document.getElementById("heroes").appendChild(element);
 			}
-			for(i = 0; i < enemies.length; i++) {
-				var xDiff = hero.x - enemies[i].x,
-					yDiff = hero.y - enemies[i].y;
-				if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
-					explode(hero.x,hero.y)
-					enemies[i] = 'remove'
-					score -= 500;
-				}
-			}
+			// for(i = 0; i < enemies.length; i++) {
+			// 	var xDiff = hero.x - enemies[i].x,
+			// 		yDiff = hero.y - enemies[i].y;
+			// 	if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
+			// 		explode(hero.x,hero.y)
+			// 		enemies[i] = 'remove'
+			// 		score -= 500;
+			// 	}
+			// }
 				
-			for(i = 0; i < bigEnemies.length; i++) {
-				var xDiff = hero.x - bigEnemies[i].x,
-					yDiff = hero.y - bigEnemies[i].y;
-				if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
-					explode(hero.x,hero.y)
-					bigEnemies[i] = 'remove'
-					score -= 500;
-				}
-			}
+			// for(i = 0; i < bigEnemies.length; i++) {
+			// 	var xDiff = hero.x - bigEnemies[i].x,
+			// 		yDiff = hero.y - bigEnemies[i].y;
+			// 	if(xDiff < 20 && xDiff > -20 && yDiff < 20 && yDiff > -20) {
+			// 		explode(hero.x,hero.y)
+			// 		bigEnemies[i] = 'remove'
+			// 		score -= 500;
+			// 	}
+			// }
 		}
 
 
