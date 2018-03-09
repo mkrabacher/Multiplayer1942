@@ -143,6 +143,7 @@
 		function displayHero() {
 			document.getElementById("heroes").innerHTML = "";
 			for (let key in heroes) {
+				console.log("heroes[" + key + "].x: " + heroes[key].x + " heroes[" + key + "].y: " + heroes[key].y);
 				let element = document.createElement("div");
 				element.id = key;
 				element.className = "hero";
