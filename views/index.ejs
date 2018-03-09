@@ -74,6 +74,7 @@
 				enemiesAdded = 1,
 				shootNoise = new Audio('/sounds/shootNoise.wav'),
 				explodeNoise = new Audio('/sounds/enemyExplodes.wav');
+				
 			$(document).ready(function() {
 				var socket = io.connect();
 				socket.emit("playerJoin",{name:name});
@@ -103,13 +104,14 @@
 						socket.emit("updatePlayer", {key:key, name:name});
 					}
 					
-				}
+				}	
 				socket.on("updateGame", function(data) {
-					enemies = data.enemies;
-					bigEnemies = data.bigEnemies,
-					bullets = data.bullets,
-					score = data.score,
-					enemiesAdded = data.enemiesAdded
+					console.log(data)
+					enemies = data.response.enemies;
+					bigEnemies = data.response.bigEnemies,
+					bullets = data.response.bullets,
+					score = data.response.score,
+					enemiesAdded = data.response.enemiesAdded
 				});
 			});
 		</script>
@@ -283,7 +285,7 @@
 
 		setInterval(function() {
 			gameLoop()
-			console.log('.')
+			// console.log('.')
 		}, 50)
 
 	</script>
