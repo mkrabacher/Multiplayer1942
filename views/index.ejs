@@ -134,7 +134,7 @@
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script>
 		function displayHero() {
-			document.getElementById("heroes").innerHTML("");
+			document.getElementById("heroes").innerHTML = "";
 			for (let key in heroes) {
 				let element = document.createElement("div");
 				element.id = key;
