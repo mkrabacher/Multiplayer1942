@@ -113,12 +113,12 @@
 					
 				}	
 				socket.on("updateGame", function(data) {
-					
+					heroes = data.response.heroes;
 					enemies = data.response.enemies;
-					bigEnemies = data.response.bigEnemies,
-					bullets = data.response.bullets,
-					score = data.response.score,
-					enemiesAdded = data.response.enemiesAdded
+					bigEnemies = data.response.bigEnemies;
+					bullets = data.response.bullets;
+					score = data.response.score;
+					enemiesAdded = data.response.enemiesAdded;
 					gameLoop();
 				});
 			});
@@ -143,7 +143,7 @@
 		function displayHero() {
 			document.getElementById("heroes").innerHTML = "";
 			for (let key in heroes) {
-				console.log("heroes[" + key + "].x: " + heroes[key].x + " heroes[" + key + "].y: " + heroes[key].y);
+				// console.log("heroes[" + key + "].x: " + heroes[key].x + " heroes[" + key + "].y: " + heroes[key].y);
 				let element = document.createElement("div");
 				element.id = key;
 				element.className = "hero";
