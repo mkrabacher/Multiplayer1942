@@ -121,6 +121,9 @@
 					enemiesAdded = data.response.enemiesAdded;
 					gameLoop();
 				});
+				socket.on("explode", function(data) {
+					explode(data.x, data.y);
+				})
 			});
 		</script>
 	</head>
