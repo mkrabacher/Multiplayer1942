@@ -1,4 +1,4 @@
-//setup
+//server setup
 // require express
 var express = require("express");
 // path module -- try to figure out where and why we use this
@@ -15,8 +15,21 @@ app.use(express.static(path.join(__dirname, "./static")));
 // setting up ejs and our views folder
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
-//end setup
+//end server setup
 
+//variables
+var gameObject = {
+    heroes: {
+        'steve':{x:200, y:300},
+        'joe':{x:150, y:100}
+    },
+    enemies: [],
+    bigEnemies: [],
+    bullets: [],
+    communityScore: 0,
+
+}
+//end variables
 
 //functions
 function moveEnemies() {
@@ -47,7 +60,7 @@ function moveBullets() {
                     var yDiff = bullets[i].y - enemies[j].y,
                         xDiff = bullets[i].x - enemies[j].x;
                     if (xDiff < 30 && xDiff > -30 && yDiff < 10 && yDiff > -10) {
-                        explode(enemies[j].x, enemies[j].y);
+                        io.emit('explode', enemies[j].x, enemies[j].y);
                         bullets[i] = 'remove';
                         enemies[j] = 'remove';
                         score += 10;
@@ -57,7 +70,7 @@ function moveBullets() {
                     var yDiff = bullets[i].y - bigEnemies[j].y,
                         xDiff = bullets[i].x - bigEnemies[j].x;
                     if (xDiff < 60 && xDiff > -30 && yDiff < 40 && yDiff > -10) {
-                        explode(bigEnemies[j].x, bigEnemies[j].y);
+                        io.emit('explode', bigEnemies[j].x, bigEnemies[j].y);
                         bullets[i] = 'remove';
                         bigEnemies[j] = 'remove';
                         score += 10;
@@ -68,10 +81,8 @@ function moveBullets() {
     }
 }
 
-function shootBullet() {
-    shootNoise.play()
-    document.getElementById('bullets').innerHTML += "<div class='bullet' style='top:" + hero.y + "px; left:" + (hero.x + 8) + "px;'></div>";
-    bullets.push({ x: hero.x, y: hero.y });
+function shootBullet(x,y) {
+    bullets.push(x,y);
 }
 
 function remove() {
@@ -106,17 +117,44 @@ var server = app.listen(8000, function () {
 });
 //sockets
 var io = require('socket.io').listen(server);
-var messages = []
 
 io.sockets.on('connection', function (socket) {
-
-    socket.on('message', function (data) {
-        messages.push({ name: data.name, text: data.text })
-        io.emit('update', { response: messages })
+    socket.on('updatePlayer', function (data) {
+        //sends in individual info that needs to be added to the gameObject
+        switch(data.key){
+            case 'up':
+                //update specific player's vertical pos skyward
+                heroes[data.name].y -= 5
+                break;
+            case 'right':
+                //update specific player's horizontal pos right
+                heroes[data.name].x += 5
+                break;
+            case 'down':
+                //update specific player's vertical pos down
+                heroes[data.name].y += 5
+                break;
+            case 'left':
+                //update specific player's horizontal pos left
+                heroes[data.name].x -= 5
+                break;
+            case 'space':
+                //create bullet based hero x and y
+                shootBullet(heroes[data.name].x, heroes[data.name].y)
+                io.emit('shootNoise')
+                heroes[data.name].y
+                break;
+            
+        }
     })
-    socket.on('reset', function (data) {
-        count = 0
-        io.emit('counter', { counter: count++ })
+    socket.on('playerJoin', function (data) {
+        //sends in player name and triggers event to add a new player to the heroes array with given name.
+        heroes[data.name] = {x:150, y:250}
     })
+    setInterval(function() {
+        // gameLoop()
+        io.emit('updateGame', {resposne:gameObject})
+        // console.log('.')
+    }, 50)
 })
 //end sockets
