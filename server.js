@@ -19,10 +19,7 @@ app.set('view engine', 'ejs');
 
 //variables
 var gameObject = {
-    heroes: {
-        'steve':{x:200, y:300},
-        'joe':{x:150, y:100}
-    },
+    heroes: {},
     enemies: [],
     bigEnemies: [],
     bullets: [],
@@ -165,7 +162,6 @@ io.sockets.on('connection', function (socket) {
             case 'up':
             //update specific player's vertical pos skyward
                 gameObject.heroes[data.name].x -= 5
-                console.log(gameObject.heroes[data.name].y)
                 break;
             case 'right':
                 //update specific player's horizontal pos right
