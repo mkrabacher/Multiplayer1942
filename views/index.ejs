@@ -18,6 +18,13 @@
 				height:28px;
 				position:absolute;
 			}
+			.hero {
+				background: url('/images/1942.gif');
+				background-position: -30px -10px;
+				width:28px;
+				height:28px;
+				position:absolute;
+			}
 			.enemy{
 				background: url('/images/1942.gif');
 				background-position-y: -180px;
@@ -106,7 +113,7 @@
 					
 				}	
 				socket.on("updateGame", function(data) {
-					console.log(data)
+					
 					enemies = data.response.enemies;
 					bigEnemies = data.response.bigEnemies,
 					bullets = data.response.bullets,
@@ -136,8 +143,10 @@
 		function displayHero() {
 			document.getElementById("heroes").innerHTML = "";
 			for (let key in heroes) {
+				console.log("heroes[" + key + "].x: " + heroes[key].x + " heroes[" + key + "].y: " + heroes[key].y);
 				let element = document.createElement("div");
 				element.id = key;
+				element.className = "hero";
 				element.style["top"] = heroes[key].x
 				element.style["left"] = heroes[key].y
 				document.getElementById("heroes").appendChild(element);
@@ -172,17 +181,17 @@
 			for(i = 0; i < bigEnemies.length; i++) {
 				output += "<div id='0' class='bigEnemy' style='top:" + bigEnemies[i].y  + "; left:" + bigEnemies[i].x + "px;'></div>";
 			}
-			if(enemies.length < 7) {
-				var xPos = (Math.random() * 900) + 50;
-				if(enemiesAdded % 15 == 0) {
-					output += "<div id='0' class='bigEnemy' style='top: 10; left: " + xPos + "px;'></div>";
-					bigEnemies.push({x: xPos, y: -10})
-				} else {
-					output += "<div id='0' class='enemy' style='top: 10; left: " + xPos + "px;'></div>";
-					enemies.push({x: xPos, y: -10})
-				}
-				enemiesAdded += 1;
-			}
+			// if(enemies.length < 7) {
+			// 	var xPos = (Math.random() * 900) + 50;
+			// 	if(enemiesAdded % 15 == 0) {
+			// 		output += "<div id='0' class='bigEnemy' style='top: 10; left: " + xPos + "px;'></div>";
+			// 		bigEnemies.push({x: xPos, y: -10})
+			// 	} else {
+			// 		output += "<div id='0' class='enemy' style='top: 10; left: " + xPos + "px;'></div>";
+			// 		enemies.push({x: xPos, y: -10})
+			// 	}
+			// 	enemiesAdded += 1;
+			// }
 			document.getElementById('enemies').innerHTML = output;
 		}
 
