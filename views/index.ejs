@@ -61,6 +61,58 @@
 				font-family: Arial;	
 			}
 		</style>
+		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script>
+			var name = prompt("Please enter your name");
+			var heroes = {};
+			heroes[name] = {x:10, y:10}
+			var enemies = [],
+				bigEnemies = [],
+				bullets = [],
+				score = 100,
+				enemiesAdded = 1,
+				shootNoise = new Audio('shootNoise.wav'),
+				explodeNoise = new Audio('enemyExplodes.wav');
+			$(document).ready(function() {
+				var socket = io.connect();
+				io.emit("playerJoin",{name:name});
+				document.onkeydown = function(e) {
+					let key;
+					switch (e.keyCode) {
+						case 38:
+							key = "up";
+							break;
+						case 39:
+							key = "right";
+							break;
+						case 40:
+							key = "down";
+							break;
+						case 37:
+							key = "left";
+							break;
+						case 32:
+							key = "space";
+							shootNoise.play();
+							break;
+						default:
+							key = "BADKEY";
+					}
+					if (key != "BADKEY") {
+						io.emit("updatePlayer", {key:key, name:name});
+					}
+					
+				}
+				io.on("updateGame", function(data) {
+					enemies = data.enemies;
+					bigEnemies = data.bigEnemies,
+					bullets = data.bullets,
+					score = data.score,
+					enemiesAdded = data.enemiesAdded
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<div id='container'>
@@ -79,14 +131,6 @@
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script>
 
-		var heros = [{x: 500, y: 300}],
-			enemies = [],
-			bigEnemies = [],
-			bullets = [],
-			score = 100,
-			enemiesAdded = 1,
-			shootNoise = new Audio('shootNoise.wav'),
-			explodeNoise = new Audio('enemyExplodes.wav');
 
 		
 
@@ -239,26 +283,7 @@
 			updateScore();
 		}
 
-		document.onkeydown = function(e) {
-			if(e.keyCode == 38) {						//up
-				console.log("up")
-				hero.y -= 5;
-			} else if(e.keyCode == 39) {				//right
-				console.log("right")
-				hero.x += 5;
-			} else if(e.keyCode == 40) {				//down
-				console.log("down")
-				hero.y += 5;
-			} else if(e.keyCode == 37) {				//left
-				console.log('left')
-				hero.x -= 5;
-			} else if(e.keyCode == 32) {				//space
-				console.log("space")
-				if(bullets.length < 3) {
-					shootBullet();
-				}
-			}
-		}
+		
 
 		setInterval(function() {
 			gameLoop()
