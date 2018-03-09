@@ -94,22 +94,9 @@ function remove() {
 //routes
 // root route to render the index.ejs view
 app.get('/', function (req, res) {
-    context = {
-        loggedin: false
-    }
-    res.render("index", context);
+    res.render("index");
 })
 // post route for adding a user
-app.post('/name', function (req, res) {
-    console.log('req.body.name')
-    req.session.name = req.body.name;
-})
-app.get('/result', function (req, res) {
-    data = {
-        counter: count
-    }
-    res.render('result', data);
-})
 //end routes
 
 
