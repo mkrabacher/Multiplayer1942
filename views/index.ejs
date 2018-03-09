@@ -11,14 +11,14 @@
 				width:1000px;
 				height:550px;
 			}
-			#hero{
+			.hero {
 				background: url('/images/1942.gif');
 				background-position: -30px -10px;
 				width:28px;
 				height:28px;
 				position:absolute;
 			}
-			.hero {
+			#hero{
 				background: url('/images/1942.gif');
 				background-position: -30px -10px;
 				width:28px;
@@ -145,8 +145,12 @@
 			for (let key in heroes) {
 				// console.log("heroes[" + key + "].x: " + heroes[key].x + " heroes[" + key + "].y: " + heroes[key].y);
 				let element = document.createElement("div");
-				element.id = key;
-				element.className = "hero";
+				if (key == name) {
+					element.id = "hero";
+				} else {
+					element.className = "hero";
+				}
+				
 				element.style["top"] = heroes[key].x
 				element.style["left"] = heroes[key].y
 				document.getElementById("heroes").appendChild(element);
