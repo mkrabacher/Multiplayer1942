@@ -111,7 +111,7 @@ function moveBullets() {
 }
 
 function shootBullet(x,y) {
-    gameObject.bullets.push(x,y);
+    gameObject.bullets.push({'y':y, 'x':x});
 }
 
 function remove() {
@@ -177,7 +177,7 @@ io.sockets.on('connection', function (socket) {
                 break;
             case 'space':
                 //create bullet based hero x and y
-                shootBullet(gameObject.heroes[data.name].x, gameObject.heroes[data.name].y)
+                shootBullet(gameObject.heroes[data.name].y, gameObject.heroes[data.name].x)
                 io.emit('shootNoise')
                 gameObject.heroes[data.name].y
                 break;
