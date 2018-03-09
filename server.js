@@ -124,36 +124,36 @@ io.sockets.on('connection', function (socket) {
         switch(data.key){
             case 'up':
                 //update specific player's vertical pos skyward
-                heroes[data.name].y -= 5
+                gameObject.heroes[data.name].y -= 5
                 break;
             case 'right':
                 //update specific player's horizontal pos right
-                heroes[data.name].x += 5
+                gameObject.heroes[data.name].x += 5
                 break;
             case 'down':
                 //update specific player's vertical pos down
-                heroes[data.name].y += 5
+                gameObject.heroes[data.name].y += 5
                 break;
             case 'left':
                 //update specific player's horizontal pos left
-                heroes[data.name].x -= 5
+                gameObject.heroes[data.name].x -= 5
                 break;
             case 'space':
                 //create bullet based hero x and y
-                shootBullet(heroes[data.name].x, heroes[data.name].y)
+                shootBullet(gameObject.heroes[data.name].x, gameObject.heroes[data.name].y)
                 io.emit('shootNoise')
-                heroes[data.name].y
+                gameObject.heroes[data.name].y
                 break;
             
         }
     })
     socket.on('playerJoin', function (data) {
         //sends in player name and triggers event to add a new player to the heroes array with given name.
-        heroes[data.name] = {x:150, y:250}
+        gameObject.heroes[data.name] = {x:150, y:250}
     })
     setInterval(function() {
         // gameLoop()
-        io.emit('updateGame', {resposne:gameObject})
+        io.emit('updateGame', {response:gameObject})
         // console.log('.')
     }, 50)
 })
